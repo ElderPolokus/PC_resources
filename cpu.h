@@ -1,13 +1,15 @@
 #ifndef CPU_H
 #define CPU_H
-#include <QProcess>
+#include <QString>
+#include <windows.h>
 
 class cpu {
 public:
     cpu();
+//    ~cpu();
     QString cpu_value;
-private:
-    QProcess *process;
+    int cpu_value_int;
+    static ULONGLONG filetime(FILETIME &ft);
 };
 
 #endif // CPU_H

@@ -1,13 +1,12 @@
 #ifndef RAM_H
 #define RAM_H
-#include <QProcess>
+#include <QString>
 
 class ram {
 public:
     ram();
     QString ram_value;
-private:
-    QProcess *process;
+    int ram_value_int;
 };
 
 #endif // RAM_H

@@ -1,28 +1,14 @@
 #include "ram.h"
-#include <QRegularExpression>
-#include <QProcess>
 #include <QDebug>
+#include <windows.h>
 
 ram::ram() {
-    QProcess process;
-    float TPM;    //TotalPhysicalMemory
-    float FPM;    //FreePhysicalMemory
-    QString p_reader;
-    QRegularExpression re("\\D");
-
-    process.start("cmd.exe", QStringList() << "/c" << "wmic OS get FreePhysicalMemory");
-    process.waitForReadyRead();
-    p_reader = process.readAll();
-    process.close();
-    p_reader.remove(re);
-    FPM = p_reader.toInt()/1024;
-
-    process.start("cmd.exe", QStringList() << "/c" << "wmic ComputerSystem get TotalPhysicalMemory");
-    process.waitForReadyRead();
-    p_reader = process.readAll();
-    process.close();
-    p_reader.remove(re);
-    TPM = p_reader.toLongLong()/(1024*1024);
-    FPM = 100-(FPM*100/TPM);
-    ram_value = QString::number(round(FPM));
+    MEMORYSTATUSEX memory_status;
+    memory_status.dwLength = sizeof(MEMORYSTATUSEX);
+    if (GlobalMemoryStatusEx(&memory_status)) {
+      ram_value = (QString("%1 %").arg(memory_status.dwMemoryLoad));
+      ram_value_int = memory_status.dwMemoryLoad;
+    } else {
+      ram_value = ("Unknown RAM");
+    }
 }
