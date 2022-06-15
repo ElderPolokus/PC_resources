@@ -5,7 +5,7 @@
 class ram {
 public:
     ram();
-    QString ram_value;
+//    QString ram_value;
     int ram_value_int;
 };
 

@@ -20,7 +20,13 @@ public:
 private slots:
     void timer();
 
+    void on_action_2_triggered();
+
+    void on_action_3_triggered();
+
 private:
     Ui::MainWindow *ui;
+    int width;
+    int height;
 };
 #endif // MAINWINDOW_H

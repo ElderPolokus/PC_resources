@@ -1,26 +1,39 @@
 #include "cpu.h"
 #include <windows.h>
+#include <winternl.h>
 #include <QDebug>
 
-ULONGLONG cpu::filetime(FILETIME &ft) {
-    ULARGE_INTEGER ul;
-    ul.HighPart = ft.dwHighDateTime;
-    ul.LowPart = ft.dwLowDateTime;
-    return ul.QuadPart;
-}
-
 cpu::cpu() {
-    FILETIME idle, prev_idle;
-    FILETIME kernel, prev_kernel;
-    FILETIME user, prev_user;
-    GetSystemTimes(&prev_idle, &prev_kernel, &prev_user);
-    Sleep(1000);
-    GetSystemTimes(&idle, &kernel, &user);
-    ULONGLONG sys = (ft2ull(user) - ft2ull(prev_user)) + (ft2ull(kernel) - ft2ull(prev_kernel));
-    int cpu = int((sys - ft2ull(idle) + ft2ull(prev_idle)) * 100.0 / sys);
-    prev_idle = idle;
-    prev_kernel = kernel;
-    prev_user = user;
-    cpu_value = QString::number(cpu);
-    cpu_value_int = cpu;
+    typedef NTSTATUS (NTAPI* pfNtQuerySystemInformation) (
+            IN SYSTEM_INFORMATION_CLASS SystemInformationClass,
+            OUT PVOID SystemInformation,
+            IN ULONG SystemInformationLength,
+            OUT PULONG ReturnLength OPTIONAL
+            );
+
+        static pfNtQuerySystemInformation NtQuerySystemInformation = NULL;
+
+        // В этом нужно будет разобраться, понятия не имею что это, но без этого не работает
+        if(NtQuerySystemInformation == NULL)
+        {
+            HMODULE ntDLL = ::GetModuleHandleA("ntdll.dll");
+            NtQuerySystemInformation = (pfNtQuerySystemInformation)GetProcAddress(ntDLL ,"NtQuerySystemInformation");
+        }
+
+        static SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION lastInfo = {0};
+        SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION curInfo = {0};
+
+        ULONG retsize;
+
+        NtQuerySystemInformation(SystemProcessorPerformanceInformation, &curInfo, sizeof(curInfo), &retsize);
+
+        double cpuUsage = -1;
+
+        if(lastInfo.KernelTime.QuadPart != 0 || lastInfo.UserTime.QuadPart != 0)
+            cpuUsage = 100.0 - double(curInfo.IdleTime.QuadPart - lastInfo.IdleTime.QuadPart) /
+            double(curInfo.KernelTime.QuadPart - lastInfo.KernelTime.QuadPart + curInfo.UserTime.QuadPart - lastInfo.UserTime.QuadPart) * 100.0;
+
+        lastInfo = curInfo;
+
+        cpu_value_int = cpuUsage;
 }

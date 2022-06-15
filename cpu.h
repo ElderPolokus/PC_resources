@@ -6,8 +6,7 @@
 class cpu {
 public:
     cpu();
-//    ~cpu();
-    QString cpu_value;
+//    QString cpu_value;
     int cpu_value_int;
     static ULONGLONG filetime(FILETIME &ft);
 };
