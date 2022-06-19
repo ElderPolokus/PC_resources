@@ -13,7 +13,6 @@ cpu::cpu() {
 
         static pfNtQuerySystemInformation NtQuerySystemInformation = NULL;
 
-        // В этом нужно будет разобраться, понятия не имею что это, но без этого не работает
         if(NtQuerySystemInformation == NULL)
         {
             HMODULE ntDLL = ::GetModuleHandleA("ntdll.dll");

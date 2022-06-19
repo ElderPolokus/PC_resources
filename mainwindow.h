@@ -2,8 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QProcess>
-#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,6 +21,12 @@ private slots:
     void on_action_2_triggered();
 
     void on_action_3_triggered();
+
+    void on_action_triggered();
+
+    void on_action_4_triggered();
+
+    void on_action_5_triggered();
 
 private:
     Ui::MainWindow *ui;

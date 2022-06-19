@@ -5,8 +5,8 @@
 class ram {
 public:
     ram();
-//    QString ram_value;
     int ram_value_int;
+    QString err;
 };
 
 #endif // RAM_H

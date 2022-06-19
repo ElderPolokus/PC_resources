@@ -10,8 +10,20 @@
     <height>347</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>300</width>
+    <height>280</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>400</width>
+    <height>370</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Мониторинг ресурсов</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -21,28 +33,6 @@
     <property name="bottomMargin">
      <number>9</number>
     </property>
-    <item>
-     <widget class="QLabel" name="image">
-      <property name="minimumSize">
-       <size>
-        <width>140</width>
-        <height>120</height>
-       </size>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap resource="resource.qrc">:/resources/img/pngwing.com.png</pixmap>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="margin">
-       <number>0</number>
-      </property>
-     </widget>
-    </item>
     <item>
      <layout class="QFormLayout" name="formLayout">
       <property name="labelAlignment">
@@ -55,16 +45,16 @@
        <number>6</number>
       </property>
       <property name="verticalSpacing">
-       <number>6</number>
+       <number>10</number>
       </property>
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>CPU</string>
+         <string>ЦП</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="1" column="1">
        <widget class="QProgressBar" name="progressBar">
         <property name="minimumSize">
          <size>
@@ -83,15 +73,66 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>RAM</string>
+         <string>ОЗУ</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="2" column="1">
        <widget class="QProgressBar" name="progressBar_2">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>220</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="image">
+        <property name="minimumSize">
+         <size>
+          <width>140</width>
+          <height>120</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>164</width>
+          <height>140</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="resource.qrc">:/resources/img/pngwing.com.png</pixmap>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Диск</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QProgressBar" name="progressBar_3">
         <property name="minimumSize">
          <size>
           <width>100</width>
@@ -132,8 +173,11 @@
      </property>
      <addaction name="action_2"/>
      <addaction name="action_3"/>
+     <addaction name="action"/>
+     <addaction name="action_4"/>
     </widget>
     <addaction name="menu_2"/>
+    <addaction name="action_5"/>
    </widget>
    <addaction name="menu"/>
   </widget>
@@ -146,6 +190,21 @@
   <action name="action_3">
    <property name="text">
     <string>Принтер</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Клавиатура</string>
+   </property>
+  </action>
+  <action name="action_4">
+   <property name="text">
+    <string>Наушники</string>
+   </property>
+  </action>
+  <action name="action_5">
+   <property name="text">
+    <string>Информация о пользователе</string>
    </property>
   </action>
  </widget>
