@@ -47,58 +47,9 @@
       <property name="verticalSpacing">
        <number>10</number>
       </property>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>ЦП</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QProgressBar" name="progressBar">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>220</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="value">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>ОЗУ</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QProgressBar" name="progressBar_2">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>220</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="value">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
+      <property name="rightMargin">
+       <number>30</number>
+      </property>
       <item row="0" column="1">
        <widget class="QLabel" name="image">
         <property name="minimumSize">
@@ -124,6 +75,86 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>ЦП</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QProgressBar" name="progressBar">
+        <property name="minimumSize">
+         <size>
+          <width>68</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>188</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QProgressBar {
+	background-color: rgb(195, 195, 195);
+	color: rgb(240, 240, 240);
+	border-style: solid;
+	border-radius: 3px;
+	text-align: center;
+}
+
+QProgressBar::chunk {
+	border-radius: 3px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 157, 38, 255), stop:1 rgba(255, 223, 62, 255));
+}</string>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>ОЗУ</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QProgressBar" name="progressBar_2">
+        <property name="minimumSize">
+         <size>
+          <width>68</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>188</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QProgressBar {
+	background-color: rgb(195, 195, 195);
+	color: rgb(240, 240, 240);
+	border-style: solid;
+	border-radius: 3px;
+	text-align: center;
+}
+
+QProgressBar::chunk {
+	border-radius: 3px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 157, 38, 255), stop:1 rgba(255, 223, 62, 255));
+}</string>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
@@ -135,15 +166,29 @@
        <widget class="QProgressBar" name="progressBar_3">
         <property name="minimumSize">
          <size>
-          <width>100</width>
+          <width>68</width>
           <height>24</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>220</width>
+          <width>188</width>
           <height>24</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QProgressBar {
+	background-color: rgb(195, 195, 195);
+	color: rgb(240, 240, 240);
+	border-style: solid;
+	border-radius: 3px;
+	text-align: center;
+}
+
+QProgressBar::chunk {
+	border-radius: 3px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 157, 38, 255), stop:1 rgba(255, 223, 62, 255));
+}</string>
         </property>
         <property name="value">
          <number>0</number>
@@ -194,17 +239,20 @@
   </action>
   <action name="action">
    <property name="text">
-    <string>Клавиатура</string>
+    <string>Ноутбук</string>
    </property>
-  </action>
-  <action name="action_4">
-   <property name="text">
-    <string>Наушники</string>
+   <property name="toolTip">
+    <string>Ноутбук</string>
    </property>
   </action>
   <action name="action_5">
    <property name="text">
     <string>Информация о пользователе</string>
+   </property>
+  </action>
+  <action name="action_4">
+   <property name="text">
+    <string>Сервер</string>
    </property>
   </action>
  </widget>
