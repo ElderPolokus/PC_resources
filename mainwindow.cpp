@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     width = ui -> image -> width();
     height = ui -> image -> height();
     ui -> image -> setPixmap(pix.scaled(width, height, Qt::KeepAspectRatio));
+    //GroupBox
+    ui -> groupBox -> hide();
 }
 
 MainWindow::~MainWindow()
@@ -46,6 +48,16 @@ void MainWindow::timer()
     disk disk;
     ui -> label_3 -> setText(disk.name_disk);
     ui -> progressBar_3 -> setValue(disk.disk_value_int);
+
+    UserInfo userinfo;
+    QString message;
+    if(userinfo.IP_address != "") {
+        message = "Имя: " + userinfo.UserName + "\nIP-адреса: " + userinfo.IP_address;
+    } else {
+        message = "Имя: " + userinfo.UserName + "\nНе возможно получить IP-адрес";
+    }
+    message += "\nВремя работы ПК" + userinfo.PC_time;
+    ui ->  label_4 -> setText("Информация о пользователе!\n" + message);
 }
 
 void MainWindow::on_action_2_triggered()
@@ -85,13 +97,9 @@ void MainWindow::on_action_4_triggered()
 
 void MainWindow::on_action_5_triggered()
 {
-    UserInfo userinfo;
-    QString message;
-    if(userinfo.IP_address != "") {
-        message = "Имя: " + userinfo.UserName + "\nIP-адреса: " + userinfo.IP_address;
+    if(ui->groupBox -> isVisible()) {
+        ui -> groupBox -> hide();
     } else {
-        message = "Имя: " + userinfo.UserName + "\nНе возможно получить IP-адрес";
+        ui -> groupBox -> show();
     }
-    message += "\nВремя работы ПК" + userinfo.PC_time;
-    QMessageBox::information(this, "Информация о пользователе !", message);
 }
