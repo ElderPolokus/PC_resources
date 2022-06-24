@@ -73,14 +73,14 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="label_CPU">
         <property name="text">
          <string>ЦП</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QProgressBar" name="progressBar">
+       <widget class="QProgressBar" name="pB_CPU">
         <property name="minimumSize">
          <size>
           <width>68</width>
@@ -113,14 +113,14 @@ QProgressBar::chunk {
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="label_RAM">
         <property name="text">
          <string>ОЗУ</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QProgressBar" name="progressBar_2">
+       <widget class="QProgressBar" name="pB_RAM">
         <property name="minimumSize">
          <size>
           <width>68</width>
@@ -153,14 +153,14 @@ QProgressBar::chunk {
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="label_DISK">
         <property name="text">
          <string>Диск</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QProgressBar" name="progressBar_3">
+       <widget class="QProgressBar" name="pB_DISK">
         <property name="minimumSize">
          <size>
           <width>68</width>
@@ -211,14 +211,58 @@ QProgressBar::chunk {
       <property name="title">
        <string>Информация о пользователе</string>
       </property>
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="label_Name">
        <property name="geometry">
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>131</width>
-         <height>261</height>
+         <width>170</width>
+         <height>31</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_IP_address">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>180</y>
+         <width>170</width>
+         <height>101</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_PC_time">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>59</y>
+         <width>170</width>
+         <height>111</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
        </property>
        <property name="text">
         <string/>
@@ -245,28 +289,28 @@ QProgressBar::chunk {
      <property name="title">
       <string>Выбрать картинку</string>
      </property>
-     <addaction name="action_2"/>
-     <addaction name="action_3"/>
-     <addaction name="action"/>
-     <addaction name="action_4"/>
+     <addaction name="action_Image_PC"/>
+     <addaction name="action_Image_Printer"/>
+     <addaction name="action_Image_Laptop"/>
+     <addaction name="action_Image_Server"/>
     </widget>
     <addaction name="menu_2"/>
-    <addaction name="action_5"/>
+    <addaction name="action_UserInfo"/>
    </widget>
    <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action_2">
+  <action name="action_Image_PC">
    <property name="text">
     <string>Компьютер</string>
    </property>
   </action>
-  <action name="action_3">
+  <action name="action_Image_Printer">
    <property name="text">
     <string>Принтер</string>
    </property>
   </action>
-  <action name="action">
+  <action name="action_Image_Laptop">
    <property name="text">
     <string>Ноутбук</string>
    </property>
@@ -274,12 +318,15 @@ QProgressBar::chunk {
     <string>Ноутбук</string>
    </property>
   </action>
-  <action name="action_5">
+  <action name="action_UserInfo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Информация о пользователе</string>
    </property>
   </action>
-  <action name="action_4">
+  <action name="action_Image_Server">
    <property name="text">
     <string>Сервер</string>
    </property>

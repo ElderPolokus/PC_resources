@@ -34,7 +34,7 @@ MainWindow::~MainWindow()
 void MainWindow::timer()
 {
     cpu cpu;
-    ui -> progressBar -> setValue(cpu.cpu_value_int);
+    ui -> pB_CPU -> setValue(cpu.cpu_value_int);
 
     ram ram;
     if(ram.err != "") {
@@ -42,25 +42,25 @@ void MainWindow::timer()
             qApp->exit();
         }
     } else {
-        ui -> progressBar_2 -> setValue(ram.ram_value_int);
+        ui -> pB_RAM -> setValue(ram.ram_value_int);
     }
 
     disk disk;
-    ui -> label_3 -> setText(disk.name_disk);
-    ui -> progressBar_3 -> setValue(disk.disk_value_int);
+    ui -> label_DISK -> setText(disk.name_disk);
+    ui -> pB_DISK -> setValue(disk.disk_value_int);
 
+    //UserInfo
     UserInfo userinfo;
-    QString message;
+    ui ->  label_Name -> setText("Имя: " + userinfo.UserName);
     if(userinfo.IP_address != "") {
-        message = "Имя: " + userinfo.UserName + "\nIP-адреса: " + userinfo.IP_address;
+        ui -> label_IP_address -> setText("\nIP-адреса: " + userinfo.IP_address);
     } else {
-        message = "Имя: " + userinfo.UserName + "\nНе возможно получить IP-адрес";
+        ui -> label_IP_address -> setText("\nНе возможно получить IP-адрес");
     }
-    message += "\nВремя работы ПК" + userinfo.PC_time;
-    ui ->  label_4 -> setText("Информация о пользователе!\n" + message);
+    ui ->  label_PC_time -> setText("\nВремя работы ПК" + userinfo.PC_time);
 }
 
-void MainWindow::on_action_2_triggered()
+void MainWindow::on_action_Image_PC_triggered()
 {
     QPixmap pix(":/resources/img/pngwing.com.png");
     width = ui -> image -> width();
@@ -69,7 +69,7 @@ void MainWindow::on_action_2_triggered()
 }
 
 
-void MainWindow::on_action_3_triggered()
+void MainWindow::on_action_Image_Printer_triggered()
 {
     QPixmap pix(":/resources/img/pngwing.com (1).png");
     width = ui -> image -> width();
@@ -78,7 +78,7 @@ void MainWindow::on_action_3_triggered()
 }
 
 
-void MainWindow::on_action_triggered()
+void MainWindow::on_action_Image_Laptop_triggered()
 {
     QPixmap pix(":/resources/img/pngwing.com (2).png");
     width = ui -> image -> width();
@@ -87,7 +87,7 @@ void MainWindow::on_action_triggered()
 }
 
 
-void MainWindow::on_action_4_triggered()
+void MainWindow::on_action_Image_Server_triggered()
 {
     QPixmap pix(":/resources/img/pngwing.com (3).png");
     width = ui -> image -> width();
@@ -95,7 +95,7 @@ void MainWindow::on_action_4_triggered()
     ui -> image -> setPixmap(pix.scaled(width, height, Qt::KeepAspectRatio));
 }
 
-void MainWindow::on_action_5_triggered()
+void MainWindow::on_action_UserInfo_triggered()
 {
     if(ui->groupBox -> isVisible()) {
         ui -> groupBox -> hide();

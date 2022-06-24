@@ -18,15 +18,15 @@ public:
 private slots:
     void timer();
 
-    void on_action_2_triggered();
+    void on_action_Image_PC_triggered();
 
-    void on_action_3_triggered();
+    void on_action_Image_Printer_triggered();
 
-    void on_action_triggered();
+    void on_action_Image_Laptop_triggered();
 
-    void on_action_4_triggered();
+    void on_action_Image_Server_triggered();
 
-    void on_action_5_triggered();
+    void on_action_UserInfo_triggered();
 
 private:
     Ui::MainWindow *ui;
