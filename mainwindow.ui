@@ -296,6 +296,7 @@ QProgressBar::chunk {
     </widget>
     <addaction name="menu_2"/>
     <addaction name="action_UserInfo"/>
+    <addaction name="action_ConnectToServer"/>
    </widget>
    <addaction name="menu"/>
   </widget>
@@ -329,6 +330,11 @@ QProgressBar::chunk {
   <action name="action_Image_Server">
    <property name="text">
     <string>Сервер</string>
+   </property>
+  </action>
+  <action name="action_ConnectToServer">
+   <property name="text">
+    <string>Подключиться к серверу</string>
    </property>
   </action>
  </widget>
