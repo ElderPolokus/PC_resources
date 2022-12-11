@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>pc_resources</class>
+ <widget class="QMainWindow" name="pc_resources">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -302,16 +302,28 @@ QProgressBar::chunk {
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_Image_PC">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/resources/img/pngwing.com.png</normaloff>:/resources/img/pngwing.com.png</iconset>
+   </property>
    <property name="text">
     <string>Компьютер</string>
    </property>
   </action>
   <action name="action_Image_Printer">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/resources/img/pngwing.com (1).png</normaloff>:/resources/img/pngwing.com (1).png</iconset>
+   </property>
    <property name="text">
     <string>Принтер</string>
    </property>
   </action>
   <action name="action_Image_Laptop">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/resources/img/pngwing.com (2).png</normaloff>:/resources/img/pngwing.com (2).png</iconset>
+   </property>
    <property name="text">
     <string>Ноутбук</string>
    </property>
@@ -328,6 +340,10 @@ QProgressBar::chunk {
    </property>
   </action>
   <action name="action_Image_Server">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/resources/img/pngwing.com (3).png</normaloff>:/resources/img/pngwing.com (3).png</iconset>
+   </property>
    <property name="text">
     <string>Сервер</string>
    </property>

@@ -1,20 +1,21 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef PC_RESOURCES_H
+#define PC_RESOURCES_H
 
+#include "QtNetwork/qtcpsocket.h"
 #include <QMainWindow>
 #include <QTcpSocket>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class pc_resources; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class pc_resources : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(const QString& strHost, int nPort, QWidget *parent = nullptr);
-    ~MainWindow();
+    pc_resources(const QString& strHost, int nPort, QWidget *parent = nullptr);
+    ~pc_resources();
 
 private slots:
 //    void slotReadyRead();
@@ -23,9 +24,13 @@ private slots:
 
 //    void slotSendToServer();
 
-//    void slotConnected();
+    void slotConnected();
+
+    void slotDisconnected();
 
     void timer();
+
+    void getImage(int sel);
 
     void on_action_Image_PC_triggered();
 
@@ -40,10 +45,10 @@ private slots:
     void on_action_ConnectToServer_triggered();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::pc_resources *ui;
     int width;
     int height;
     QTcpSocket* m_pTcpSocket;
     quint16 m_nNextBlockSize;
 };
-#endif // MAINWINDOW_H
+#endif // PC_RESOURCES_H

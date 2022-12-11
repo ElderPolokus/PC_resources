@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "pc_resources.h"
 #include <QNetworkInterface>
 #include <QApplication>
 
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
         }
     }
     QApplication a(argc, argv);
-    MainWindow w(strHost, 2323);
-    w.show();
+    pc_resources pc_res(strHost, 2323);
+    pc_res.show();
     return a.exec();
 }

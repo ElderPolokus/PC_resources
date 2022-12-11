@@ -13,19 +13,19 @@ SOURCES += \
     cpu.cpp \
     disk.cpp \
     main.cpp \
-    mainwindow.cpp \
+    pc_resources.cpp \
     ram.cpp \
     userinfo.cpp
 
 HEADERS += \
     cpu.h \
     disk.h \
-    mainwindow.h \
+    pc_resources.h \
     ram.h \
     userinfo.h
 
 FORMS += \
-    mainwindow.ui
+    pc_resources.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
