@@ -4,6 +4,7 @@
 #include "ram.h"
 #include "disk.h"
 #include "userinfo.h"
+#include <QTime>
 #include <QTimer>
 #include <QPixmap>
 #include <QMessageBox>
@@ -30,7 +31,6 @@ pc_resources::pc_resources(const QString& strHost, int nPort, QWidget *parent)
     m_pTcpSocket->connectToHost(strHost, nPort);
     connect(m_pTcpSocket, SIGNAL(connected()), SLOT(slotConnected()));
     connect(m_pTcpSocket, SIGNAL(disconnected()), SLOT(slotDisconnected()));
-//    connect(m_pTcpSocket, SIGNAL(readyRead()), SLOT(slotReadyRead()));
     connect(m_pTcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slotError(QAbstractSocket::SocketError)));
 }
 
@@ -65,6 +65,10 @@ void pc_resources::timer()
         ui -> label_IP_address -> setText("\nНе возможно получить IP-адрес");
     }
     ui ->  label_PC_time -> setText("\nВремя работы ПК" + userinfo.PC_time);
+    //Отправка данных
+    if(m_pTcpSocket->state() == QTcpSocket::ConnectedState) {
+        slotSendToServer();
+    }
 }
 
 void pc_resources::slotError(QAbstractSocket::SocketError err) {
@@ -83,6 +87,20 @@ void pc_resources::slotConnected() {
 void pc_resources::slotDisconnected() {
     QMessageBox::information(this, "Отсоединение от сервера", "Вы успешно отсоединились!");
     ui -> action_ConnectToServer -> setText("Подключиться к серверу");
+}
+
+void pc_resources::slotSendToServer() {
+    QByteArray arrBlock;
+    QDataStream out(&arrBlock, QIODevice::WriteOnly);
+    QString resources;
+    cpu cpu;
+    ram ram;
+    disk disk;
+    out.setVersion(QDataStream::Qt_6_3);
+    resources = QString::number(cpu.cpu_value_int) + " " + QString::number(ram.ram_value_int) + " " + disk.name_disk + " " + QString::number(disk.disk_value_int);
+    out << quint16(0) << QTime::currentTime() << resources;
+    out.device()->seek(0);
+    m_pTcpSocket->write(arrBlock);
 }
 
 //Подключение к серверу

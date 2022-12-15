@@ -1,7 +1,6 @@
 #ifndef PC_RESOURCES_H
 #define PC_RESOURCES_H
 
-#include "QtNetwork/qtcpsocket.h"
 #include <QMainWindow>
 #include <QTcpSocket>
 
@@ -18,11 +17,9 @@ public:
     ~pc_resources();
 
 private slots:
-//    void slotReadyRead();
-
     void slotError(QAbstractSocket::SocketError);
 
-//    void slotSendToServer();
+    void slotSendToServer();
 
     void slotConnected();
 
