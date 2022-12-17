@@ -76,7 +76,7 @@ void pc_resources::slotError(QAbstractSocket::SocketError err) {
                      err == QAbstractSocket::RemoteHostClosedError ? "The remote host is closed." :
                      err == QAbstractSocket::ConnectionRefusedError ? "The connection was refused." :
                      QString(m_pTcpSocket->errorString()));
-    qDebug() << strError;
+    QMessageBox::warning(this, "Error", strError);
 }
 
 void pc_resources::slotConnected() {
@@ -92,13 +92,11 @@ void pc_resources::slotDisconnected() {
 void pc_resources::slotSendToServer() {
     QByteArray arrBlock;
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
-    QString resources;
     cpu cpu;
     ram ram;
     disk disk;
     out.setVersion(QDataStream::Qt_6_3);
-    resources = QString::number(cpu.cpu_value_int) + " " + QString::number(ram.ram_value_int) + " " + disk.name_disk + " " + QString::number(disk.disk_value_int);
-    out << quint16(0) << QTime::currentTime() << resources;
+    out << quint16(0) << cpu.cpu_value_int << ram.ram_value_int << disk.name_disk << disk.disk_value_int;
     out.device()->seek(0);
     m_pTcpSocket->write(arrBlock);
 }
