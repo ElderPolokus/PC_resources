@@ -25,6 +25,7 @@ pc_resources::pc_resources(const QString& strHost, int nPort, QWidget *parent)
     // Default image
     getImage(1);
     ui -> groupBox -> hide();
+    ui -> label_status -> setText("Статус подключения: \u274c");
 
     //Подключение к серверу
     m_pTcpSocket = new QTcpSocket(this);
@@ -82,11 +83,13 @@ void pc_resources::slotError(QAbstractSocket::SocketError err) {
 void pc_resources::slotConnected() {
     QMessageBox::information(this, "Подключение к серверу", "Соединение установлено!");
     ui -> action_ConnectToServer -> setText("Отключиться от сервера");
+    ui -> label_status -> setText("Статус подключения: \u2705");
 }
 
 void pc_resources::slotDisconnected() {
     QMessageBox::information(this, "Отсоединение от сервера", "Вы успешно отсоединились!");
     ui -> action_ConnectToServer -> setText("Подключиться к серверу");
+    ui -> label_status -> setText("Статус подключения: \u274c");
 }
 
 void pc_resources::slotSendToServer() {
@@ -98,6 +101,7 @@ void pc_resources::slotSendToServer() {
     out.setVersion(QDataStream::Qt_6_3);
     out << quint16(0) << cpu.cpu_value_int << ram.ram_value_int << disk.name_disk << disk.disk_value_int;
     out.device()->seek(0);
+    out <<quint16(arrBlock.size() - sizeof(quint16));
     m_pTcpSocket->write(arrBlock);
 }
 
