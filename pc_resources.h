@@ -47,5 +47,11 @@ private:
     int height;
     QTcpSocket* m_pTcpSocket;
     quint16 m_nNextBlockSize;
+
+public:
+    int cpu_res;
+    int ram_res;
+    QString disk_name;
+    int disk_res;
 };
 #endif // PC_RESOURCES_H

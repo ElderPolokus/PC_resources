@@ -43,19 +43,22 @@ pc_resources::~pc_resources()
 void pc_resources::timer()
 {
     cpu cpu;
-    ui -> pB_CPU -> setValue(cpu.cpu_value_int);
-
+    cpu_res = cpu.cpu_value_int;
     ram ram;
     if(ram.err != "") {
         if((QMessageBox::critical(this, "Ошибка", ram.err, QMessageBox::Ok)) == QMessageBox::Ok) {
             qApp->exit();
         }
     }
-    ui -> pB_RAM -> setValue(ram.ram_value_int);
-
+    ram_res = ram.ram_value_int;
     disk disk;
-    ui -> label_DISK -> setText(disk.name_disk);
-    ui -> pB_DISK -> setValue(disk.disk_value_int);
+    disk_name = disk.name_disk;
+    disk_res = disk.disk_value_int;
+
+    ui -> pB_CPU -> setValue(cpu_res);
+    ui -> pB_RAM -> setValue(ram_res);
+    ui -> label_DISK -> setText(disk_name);
+    ui -> pB_DISK -> setValue(disk_res);
 
     //UserInfo
     UserInfo userinfo;
@@ -95,11 +98,14 @@ void pc_resources::slotDisconnected() {
 void pc_resources::slotSendToServer() {
     QByteArray arrBlock;
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
-    cpu cpu;
-    ram ram;
-    disk disk;
+    QString IP;
+    for (const QHostAddress &address: QNetworkInterface::allAddresses()) {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost)) {
+             IP = address.toString();
+        }
+    }
     out.setVersion(QDataStream::Qt_6_3);
-    out << quint16(0) << cpu.cpu_value_int << ram.ram_value_int << disk.name_disk << disk.disk_value_int;
+    out << quint16(0) << IP << cpu_res << ram_res << disk_name << disk_res;
     out.device()->seek(0);
     out <<quint16(arrBlock.size() - sizeof(quint16));
     m_pTcpSocket->write(arrBlock);
