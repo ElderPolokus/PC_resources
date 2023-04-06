@@ -13,7 +13,7 @@ class pc_resources : public QMainWindow
     Q_OBJECT
 
 public:
-    pc_resources(const QString& strHost, int nPort, QWidget *parent = nullptr);
+    pc_resources(QWidget *parent = nullptr);
     ~pc_resources();
 
 private slots:
@@ -41,6 +41,13 @@ private slots:
 
     void on_action_ConnectToServer_triggered();
 
+    void on_Configure_connection_triggered();
+
+public slots:
+    void getConfigChange(QString IP, int port);
+
+    QString getIPHost();
+
 private:
     Ui::pc_resources *ui;
     int width;
@@ -53,5 +60,7 @@ public:
     int ram_res;
     QString disk_name;
     int disk_res;
+    int Port = 2323;
+    QString IP = "000.000.000.000";
 };
 #endif // PC_RESOURCES_H

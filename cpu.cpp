@@ -1,7 +1,6 @@
 #include "cpu.h"
 #include <windows.h>
 #include <winternl.h>
-#include <QDebug>
 
 cpu::cpu() {
     typedef NTSTATUS (NTAPI* pfNtQuerySystemInformation) (

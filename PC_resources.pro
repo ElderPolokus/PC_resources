@@ -1,5 +1,6 @@
 QT       += core gui
 QT       += network
+QT       += xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,6 +11,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    conf_connection.cpp \
     cpu.cpp \
     disk.cpp \
     main.cpp \
@@ -18,6 +20,7 @@ SOURCES += \
     userinfo.cpp
 
 HEADERS += \
+    conf_connection.h \
     cpu.h \
     disk.h \
     pc_resources.h \
@@ -25,6 +28,7 @@ HEADERS += \
     userinfo.h
 
 FORMS += \
+    conf_connection.ui \
     pc_resources.ui
 
 # Default rules for deployment.

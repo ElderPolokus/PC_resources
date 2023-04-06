@@ -4,14 +4,16 @@
 #include "ram.h"
 #include "disk.h"
 #include "userinfo.h"
+#include "conf_connection.h"
 #include <QTime>
 #include <QTimer>
 #include <QPixmap>
 #include <QMessageBox>
-#include <QDebug>
 #include <QNetworkInterface>
+#include <QFile>
+#include <QtXml>
 
-pc_resources::pc_resources(const QString& strHost, int nPort, QWidget *parent)
+pc_resources::pc_resources(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::pc_resources)
     , m_nNextBlockSize(0)
@@ -27,9 +29,26 @@ pc_resources::pc_resources(const QString& strHost, int nPort, QWidget *parent)
     ui -> groupBox -> hide();
     ui -> label_status -> setText("Статус подключения: \u274c");
 
+    //default IP
+    //IP = getIPHost();
+
+    //Файл с сохраненными настройками порта и IP
+    QDomDocument doc;
+    QFile file(".configConnect.xml");
+    if(file.open(QIODevice::ReadOnly)) {
+        doc.setContent(&file);
+        if(!(doc.documentElement().firstChildElement("ConfigPort")).isNull()) {
+            Port = (doc.documentElement().firstChildElement("ConfigPort").attribute("Port")).toInt();
+        }
+        if(!(doc.documentElement().firstChildElement("ConfigIP")).isNull()) {
+            IP = (doc.documentElement().firstChildElement("ConfigIP").attribute("IP"));
+        }
+        file.close();
+    }
+
     //Подключение к серверу
     m_pTcpSocket = new QTcpSocket(this);
-    m_pTcpSocket->connectToHost(strHost, nPort);
+    m_pTcpSocket->connectToHost(IP, Port);
     connect(m_pTcpSocket, SIGNAL(connected()), SLOT(slotConnected()));
     connect(m_pTcpSocket, SIGNAL(disconnected()), SLOT(slotDisconnected()));
     connect(m_pTcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slotError(QAbstractSocket::SocketError)));
@@ -64,7 +83,7 @@ void pc_resources::timer()
     UserInfo userinfo;
     ui ->  label_Name -> setText("Имя: " + userinfo.UserName);
     if(userinfo.IP_address != "") {
-        ui -> label_IP_address -> setText("\nIP-адреса: " + userinfo.IP_address);
+        ui -> label_IP_address -> setText("\nIP-адрес: " + userinfo.IP_address);
     } else {
         ui -> label_IP_address -> setText("\nНе возможно получить IP-адрес");
     }
@@ -76,7 +95,7 @@ void pc_resources::timer()
 }
 
 void pc_resources::slotError(QAbstractSocket::SocketError err) {
-    QString strError = "Error: " + (err == QAbstractSocket::HostNotFoundError ? "The host was not found." :
+    QString strError = (err == QAbstractSocket::HostNotFoundError ? "The host was not found." :
                      err == QAbstractSocket::RemoteHostClosedError ? "The remote host is closed." :
                      err == QAbstractSocket::ConnectionRefusedError ? "The connection was refused." :
                      QString(m_pTcpSocket->errorString()));
@@ -95,15 +114,18 @@ void pc_resources::slotDisconnected() {
     ui -> label_status -> setText("Статус подключения: \u274c");
 }
 
+QString pc_resources::getIPHost() {
+    for (const QHostAddress &address: QNetworkInterface::allAddresses()) {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost)) {
+             return address.toString();
+        }
+    }
+    return 0;
+}
+
 void pc_resources::slotSendToServer() {
     QByteArray arrBlock;
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
-    QString IP;
-    for (const QHostAddress &address: QNetworkInterface::allAddresses()) {
-        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost)) {
-             IP = address.toString();
-        }
-    }
     out.setVersion(QDataStream::Qt_6_3);
     out << quint16(0) << IP << cpu_res << ram_res << disk_name << disk_res;
     out.device()->seek(0);
@@ -114,17 +136,10 @@ void pc_resources::slotSendToServer() {
 //Подключение к серверу
 void pc_resources::on_action_ConnectToServer_triggered()
 {
-    QString strHost;
-    for (const QHostAddress &address: QNetworkInterface::allAddresses()) {
-        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost)) {
-             strHost = address.toString();
-        }
-    }
-
     if(m_pTcpSocket->state() == QTcpSocket::ConnectedState) {
         m_pTcpSocket->disconnectFromHost();
     } else {
-        m_pTcpSocket->connectToHost(strHost, 2323);
+        m_pTcpSocket->connectToHost(IP, Port);
         if (!m_pTcpSocket->waitForConnected(1000)) {
             QMessageBox::information(this, "Подключение к серверу", "Не удалось подключиться к серверу!");
         }
@@ -188,3 +203,25 @@ void pc_resources::on_action_Image_Server_triggered()
     getImage(4);
 }
 // Картинки ----------------------------------------------------------------
+
+void pc_resources::getConfigChange(QString ch_IP, int ch_port) {
+    Port = ch_port;
+    IP = ch_IP;
+    if(m_pTcpSocket->state() == QTcpSocket::ConnectedState) {
+        m_pTcpSocket->disconnectFromHost();
+        m_pTcpSocket->connectToHost(IP, Port);
+    } else {
+        m_pTcpSocket->connectToHost(IP, Port);
+        if (!m_pTcpSocket->waitForConnected(1000)) {
+            QMessageBox::information(this, "Подключение к серверу", "Не удалось подключиться к серверу!");
+        }
+    }
+}
+
+void pc_resources::on_Configure_connection_triggered()
+{
+    conf_connection *conf_conn = new conf_connection(IP, Port);
+    connect(conf_conn,SIGNAL(sendConfig(QString, int)),this,SLOT(getConfigChange(QString, int)));
+    conf_conn->exec();
+}
+
