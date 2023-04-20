@@ -19,6 +19,7 @@ pc_resources::pc_resources(QWidget *parent)
     , m_nNextBlockSize(0)
 {
     ui->setupUi(this);
+
     // Timer
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timer()));
@@ -30,7 +31,7 @@ pc_resources::pc_resources(QWidget *parent)
     ui -> label_status -> setText("Статус подключения: \u274c");
 
     //default IP
-    //IP = getIPHost();
+    IP = getIPHost();
 
     //Файл с сохраненными настройками порта и IP
     QDomDocument doc;
@@ -133,7 +134,7 @@ void pc_resources::slotSendToServer() {
     m_pTcpSocket->write(arrBlock);
 }
 
-//Подключение к серверу
+//Подключиться к серверу (кнопка)
 void pc_resources::on_action_ConnectToServer_triggered()
 {
     if(m_pTcpSocket->state() == QTcpSocket::ConnectedState) {
@@ -212,16 +213,13 @@ void pc_resources::getConfigChange(QString ch_IP, int ch_port) {
         m_pTcpSocket->connectToHost(IP, Port);
     } else {
         m_pTcpSocket->connectToHost(IP, Port);
-        if (!m_pTcpSocket->waitForConnected(1000)) {
-            QMessageBox::information(this, "Подключение к серверу", "Не удалось подключиться к серверу!");
-        }
     }
 }
 
 void pc_resources::on_Configure_connection_triggered()
 {
     conf_connection *conf_conn = new conf_connection(IP, Port);
-    connect(conf_conn,SIGNAL(sendConfig(QString, int)),this,SLOT(getConfigChange(QString, int)));
+    connect(conf_conn,SIGNAL(sendConfig(QString,int)),this,SLOT(getConfigChange(QString,int)));
     conf_conn->exec();
 }
 

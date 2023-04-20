@@ -61,6 +61,6 @@ public:
     QString disk_name;
     int disk_res;
     int Port = 2323;
-    QString IP = "000.000.000.000";
+    QString IP = "0.0.0.0";
 };
 #endif // PC_RESOURCES_H
