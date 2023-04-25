@@ -42,7 +42,7 @@
    <item row="1" column="0">
     <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,10,6">
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
@@ -63,6 +63,9 @@
            <width>145</width>
            <height>16777215</height>
           </size>
+         </property>
+         <property name="inputMask">
+          <string/>
          </property>
          <property name="placeholderText">
           <string>Порт</string>
@@ -85,11 +88,11 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,10,6">
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>      IP</string>
+          <string>IP</string>
          </property>
         </widget>
        </item>
@@ -109,6 +112,12 @@
            <width>145</width>
            <height>16777215</height>
           </size>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="text">
+          <string/>
          </property>
          <property name="placeholderText">
           <string>IP</string>
@@ -171,6 +180,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="Escape">
+       <property name="minimumSize">
+        <size>
+         <width>75</width>
+         <height>24</height>
+        </size>
+       </property>
        <property name="maximumSize">
         <size>
          <width>75</width>
@@ -179,6 +194,13 @@
        </property>
        <property name="text">
         <string>Отмена</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Default">
+       <property name="text">
+        <string>Сбросить</string>
        </property>
       </widget>
      </item>

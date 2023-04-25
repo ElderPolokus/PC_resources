@@ -5,6 +5,7 @@
 #include <QtXml>
 #include <QDebug>
 #include <QRegularExpression>
+#include <QNetworkInterface>
 
 conf_connection::conf_connection(QString send_IP, int send_Port, QWidget *parent) :
     QDialog(parent),
@@ -30,17 +31,17 @@ void conf_connection::on_Accept_clicked()
     QString ch_IP = IP;
 
     // 1 - 65535
-    static QRegularExpression regPort("\\b(?:[1-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])\\b");
+    static QRegularExpression regPort("\\b(?:[0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])\\b");
     if(!(ui->lineEdit->text()).isEmpty()) {
         if(regPort.match(ui->lineEdit->text()).hasMatch()) {
             ch_Port = (ui->lineEdit->text()).toInt();
         } else {
-            message = "Введите номер порта от 1 до 65535";
+            message = "Введите номер порта от 0 до 65535";
         }
     }
 
     // 0.0.0.0 - 255.255.255.255
-    static QRegularExpression regIPv4("\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
+    static QRegularExpression regIPv4("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
     if(!(ui->lineEdit_2->text()).isEmpty()) {
         if(regIPv4.match(ui->lineEdit_2->text()).hasMatch()) {
             ch_IP = ui->lineEdit_2->text();
@@ -139,3 +140,30 @@ void conf_connection::slotChangeConfigConnectIP(QString ch_IP)
     stream << doc.toString();
     file.close();
 }
+
+void conf_connection::on_Default_clicked()
+{
+    int ch_Port = 2323;
+    QString ch_IP;
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Сброс настроек");
+    msgBox.setText(tr("Сбросить настройки до значений по умолчанию?"));
+    QAbstractButton* ButtonYes = msgBox.addButton(tr("Да"), QMessageBox::YesRole);
+    msgBox.addButton(tr("Нет"), QMessageBox::NoRole);
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == ButtonYes) {
+        for (const QHostAddress &address: QNetworkInterface::allAddresses()) {
+            if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost)) {
+                ch_IP = address.toString();
+            }
+        }
+        slotChangeConfigConnectIP(ch_IP);
+        slotChangeConfigConnectPort(ch_Port);
+        emit sendConfig(ch_IP, ch_Port);
+        QMessageBox::information(this, "Сброс настроек", "Настройки сброшены");
+        close();
+    }
+}
+

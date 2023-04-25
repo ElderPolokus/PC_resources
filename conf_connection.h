@@ -24,6 +24,8 @@ private slots:
 
     void slotChangeConfigConnectIP(QString ch_IP);
 
+    void on_Default_clicked();
+
 private:
     Ui::conf_connection *ui;
     int Port;

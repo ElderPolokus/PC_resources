@@ -17,7 +17,6 @@ public:
     ~pc_resources();
 
 private slots:
-    void slotError(QAbstractSocket::SocketError);
 
     void slotSendToServer();
 

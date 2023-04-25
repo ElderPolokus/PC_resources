@@ -52,7 +52,6 @@ pc_resources::pc_resources(QWidget *parent)
     m_pTcpSocket->connectToHost(IP, Port);
     connect(m_pTcpSocket, SIGNAL(connected()), SLOT(slotConnected()));
     connect(m_pTcpSocket, SIGNAL(disconnected()), SLOT(slotDisconnected()));
-    connect(m_pTcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slotError(QAbstractSocket::SocketError)));
 }
 
 pc_resources::~pc_resources()
@@ -93,14 +92,6 @@ void pc_resources::timer()
     if(m_pTcpSocket->state() == QTcpSocket::ConnectedState) {
         slotSendToServer();
     }
-}
-
-void pc_resources::slotError(QAbstractSocket::SocketError err) {
-    QString strError = (err == QAbstractSocket::HostNotFoundError ? "The host was not found." :
-                     err == QAbstractSocket::RemoteHostClosedError ? "The remote host is closed." :
-                     err == QAbstractSocket::ConnectionRefusedError ? "The connection was refused." :
-                     QString(m_pTcpSocket->errorString()));
-    QMessageBox::warning(this, "Error", strError);
 }
 
 void pc_resources::slotConnected() {
